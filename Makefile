@@ -17,3 +17,10 @@ $(NAME): $(OBJ)
 
 $(OBJ): $(SRC)
 	nasm -f elf64 $^ -o $@
+
+clean:
+	rm -rf *.o
+	rm -rf ./bonus/*.o
+
+fclean: clean
+	rm -rf $(NAME)
