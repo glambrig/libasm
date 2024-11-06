@@ -10,6 +10,9 @@ ft_strcmp:
 
 	xor rcx, rcx
 .loop:
+	;the zero-extension is necessary here, otherwise everything in rax/rdx
+	;will keep old values in the other 63 bytes
+	;(since we're only moving a single byte)
 	movzx rax, byte [rsi + rcx]
 	movzx rdx, byte [rdi + rcx]
 	cmp rax, rdx
