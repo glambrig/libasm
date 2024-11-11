@@ -7,17 +7,11 @@ ft_strcpy:
 	;prologue
 	push rbp
 	mov rbp, rsp
-	push rdi ;src
+	; push rdi ;src
 	push rsi ;dest
 
 	;function body
-
-	;might be redundant, as strlen checks this
-	; cmp rdi, 0	;checking if either is null
-	; je .error
-	; cmp rsi, 0
-	; je .error
-
+	
 	;call strlen on src and dest
 	call ft_strlen	;call strlen on src
 	mov rcx, rax ;store result of strlen(src) in rcx
@@ -64,7 +58,7 @@ ft_strcpy:
 
 .epilogue:
 	pop rsi
-	pop rdi
+	; pop rdi
 	mov rsp, rbp
 	pop rbp
 	ret

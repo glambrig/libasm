@@ -1,10 +1,15 @@
 .PHONY: all name re clean fclean bonus
 
-NAME = libasm
+NAME = libasm.a
 
-SRC = ./*.s
+SRC = ft_strlen.s \
+		ft_strcpy.s \
+		ft_strcmp.s \
+		ft_write.s \
+		ft_read.s \
+		#ft_strdup.s
 
-OBJ = $(SRC:.c=.o)
+OBJ = $(SRC:.s=.o)
 
 BONUSSRC = ./bonus/*.s
 
@@ -15,8 +20,8 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	ar -rcs $(NAME) $^
 
-$(OBJ): $(SRC)
-	nasm -f elf64 $^ -o $@
+%.o: %.s
+	nasm $< -f elf64 -o $@
 
 clean:
 	rm -rf *.o
@@ -24,3 +29,4 @@ clean:
 
 fclean: clean
 	rm -rf $(NAME)
+	rm -rf ./a.out
