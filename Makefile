@@ -7,13 +7,14 @@ SRC = ft_strlen.s \
 		ft_strcmp.s \
 		ft_write.s \
 		ft_read.s \
-		#ft_strdup.s
+		ft_strdup.s
 
 OBJ = $(SRC:.s=.o)
 
+#CHANGE THIS
 BONUSSRC = ./bonus/*.s
 
-BONUSOBJ = ./bonus/*.o
+BONUSOBJ = $(BONUSSRC:.s=.o)
 
 all: $(NAME)
 
