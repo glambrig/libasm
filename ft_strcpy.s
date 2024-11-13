@@ -1,64 +1,90 @@
+extern ft_strlen
+
 section .text
 global ft_strcpy
-extern ft_strlen
+
+;int destlen = strlen(dest);
+;int srclen = strlen(src);
+;if (srclen + 1 > destlen || src == NULL || dest == NULL) return (dest);
+;int i = 0;
+;while (src[i])
 
 ;char *strcpy(char *dest, const char *src);
 ft_strcpy:
 	;prologue
 	push rbp
 	mov rbp, rsp
-	; push rdi ;src
-	push rsi ;dest
+	push rsi
 
-	;function body
+	;strlen(dest)
+	call ft_strlen
+	mov rdx, rax ;rdx = strlen(dest)
 	
-	;call strlen on src and dest
-	call ft_strlen	;call strlen on src
-	mov rcx, rax ;store result of strlen(src) in rcx
-	push rbx
-	mov rbx, rdi
+	;strlen(src)
+	push rdi
 	mov rdi, rsi
-	call ft_strlen	;call strlen on dest
-	mov rsi, rdi
-	mov rdi, rbx
-	pop rbx
-	mov rdx, rax ;store result of strlen(dest) in rdx
+	call ft_strlen ;rax = strlen(src)
+	pop rdi
 
-	;check if dest is large enough to accomodate src
-	inc rcx ;since we copy src's \0 too, there has to be space for strlen(src) + 1
-	cmp rcx, rdx
-	jg .error ;if strlen(src) > strlen(dest), error
+	;unfortunately we have to check to see if either string is null
+	;even though strlen already checks
+	;because we can't distinguish between ft_strlen("") and ft_strlen(NULL)
+	;since it will return 0 in both cases.
 
-	;check if strings overlap in memory
-	;if src - dest < strlen(src), then mem overlaps, error
-	mov rdx, rdi
-	sub rdx, rsi
-	cmp rdx, rcx
-	jl .error
-
+	cmp rax, rdx ;make sure dest can accomodate src
+	jg .error
+	test rdi, rdi ;make sure dest isn't NULL
+	jz .error
+	test rsi, rsi ;make sure src isn't NULL
+	jz .error
+	
+	
+	;if src is in range [dest, destlen] -> overlap
 	xor rcx, rcx
-;iterate through src, copy into dest
+	cmp rsi, rdi
+	je .error	;if src==dest -> error
+	cmp rsi, rdi
+	jg .src_g_dest
+	jmp .src_l_dest
+
+.set_rcx_0:
+	xor rcx, rcx
+
 .loop:
-	cmp byte [rdi + rcx], 0x0
-	je .copy_null_return
-	mov rdx, [rdi + rcx]
-	mov [rsi + rcx], rdx
+	cmp byte [rsi + rcx], 0
+	je .add_null_return
+	mov al, byte [rsi + rcx]
+	mov byte [rdi + rcx], al
 	inc rcx
 	jmp .loop
 
-;returns dest, not null
-.error:
-	mov rax, rsi
-	jmp .epilogue
-
-;copies the null terminator into dest and returns
-.copy_null_return:
-	mov byte [rsi + rcx], 0x0
-	jmp .epilogue
-
 .epilogue:
 	pop rsi
-	; pop rdi
 	mov rsp, rbp
 	pop rbp
 	ret
+
+;src > dest
+.src_g_dest:
+	mov rcx, rdi
+	add rcx, rdx
+	cmp rsi, rcx
+	jg .set_rcx_0	;src is not in range [dest, destlen], continue normally
+	jmp .error
+
+;src < dest
+.src_l_dest:
+	mov rcx, rsi
+	add rcx, rax
+	cmp rdi, rcx
+	jg .set_rcx_0	;dest is not in range [src + srclen], continue normally
+	jmp .error
+
+.add_null_return:
+	mov byte [rdi + rcx], 0
+	mov rax, rdi
+	jmp .epilogue
+
+.error:
+	mov rax, rdi
+	jmp .epilogue

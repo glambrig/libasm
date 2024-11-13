@@ -9,7 +9,7 @@ ft_strlen:
 	cmp qword rdi, 0
 	je .error
 .loop:
-	cmp byte [rdi + rcx], 0x0
+	cmp byte [rdi + rcx], 0
 	je .finish
 	inc rcx
 	jmp .loop
