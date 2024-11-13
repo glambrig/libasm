@@ -7,7 +7,7 @@ It's divided into the mandatory, and bonus parts:
 
 To compile the project, simply 'make' it to get the libasm.a library file.
 Then, go into main.c and uncomment the main function for the function that you want to use.
-For example, if you want to try ft_write, uncomment everything under /*ft_write*/ in main.c, save the file, and compile + link it like so:
+For example, if you want to try ft_write, uncomment everything under /\*ft_write\*/ in main.c, save the file, and compile + link it like so:
   gcc main.c libasm.a -Wall -Wextra -Werror
 The flags are optional, but you get the idea.
 
