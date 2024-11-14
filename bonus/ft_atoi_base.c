@@ -62,11 +62,3 @@ int	ft_atoi_base(char *s, char *base)
 	}
 	return (res * sign);
 }
-
-#include <stdio.h>
-
-int main(void)
-{
-	printf("123 in base 16: %d\n", ft_atoi_base("7b", "0123456789abcdef"));
-	return (0);
-}
