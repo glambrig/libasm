@@ -46,6 +46,7 @@ ft_strdup:
 	ret
 
 .nullterm_cstr:
+	dec rcx
 	mov byte [rax + rcx], 0
 	jmp .after_loop
 

@@ -22,7 +22,7 @@ $(NAME): $(OBJ)
 	ar -rcs $(NAME) $^
 
 %.o: %.s
-	nasm $< -f elf64 -o $@
+	nasm $< -f elf64 -o $@ -g
 
 clean:
 	rm -rf *.o
@@ -32,3 +32,5 @@ fclean: clean
 	rm -rf $(NAME)
 	rm -rf ./a.out
 	rm -rf ./bonus/a.out
+
+re: fclean all
