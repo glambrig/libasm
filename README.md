@@ -4,11 +4,11 @@ It's divided into the mandatory, and bonus parts:
   - The mandatory part introduced me to x86-64 (and assembly at large), and deals with basic concepts such as the logic of x86, calling convention, function and system calls, PIC/PIE, and more.
   - The bonus part is comprised of more complicated functions. This means learning to manipulate function pointers and data structures (in this case, a linked list) at the assembly level.
 
-To compile the project, simply 'make' it to get the libasm.a library file.
-There are some main functions included in main.c to test a particular assembly function.
+To compile the project, simply `make` it to get the `libasm.a` library file.
+There are some main functions included in `main.c` to test a particular assembly function.
 For example, if you want to try ft_write, uncomment everything under /\*ft_write\*/ in main.c, save the file, and compile + link it like so:
 
-gcc main.c libasm.a -Wall -Wextra -Werror
+`gcc main.c libasm.a -Wall -Wextra -Werror`
 
 The flags are optional, but you get the idea.
 
